@@ -1,6 +1,7 @@
 ﻿namespace Angular.Server.WebAPI.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using System.Linq;
     using Angular.Server.WebAPI.Models;
 
     [Route("api/[controller]")]
@@ -22,9 +23,16 @@
 
         // GET api/users/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "user";
+            var currentUser = SampleData.LoadUsers().FirstOrDefault(user => user.Id == id);
+
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(currentUser);
         }
 
         // POST api/users
