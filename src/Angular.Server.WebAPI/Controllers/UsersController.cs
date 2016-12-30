@@ -1,38 +1,60 @@
 ﻿namespace Angular.Server.WebAPI.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
     using System.Linq;
-    using Angular.Server.WebAPI.Models;
+    using Microsoft.AspNetCore.Mvc;
+
+    using Angular.Server.Data;
 
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
+        private ApplicationDbContext context;
+
+        public UsersController(ApplicationDbContext context)
+        {
+            this.context = context;
+        }
+
         // GET api/users
         [HttpGet]
         public IActionResult Get()
         {
-            var users = SampleData.LoadUsers();
 
-            if (users == null)
+            var persons = context.Persons.Select(
+                person => new
+                {
+                    Id = person.Id,
+                    Name = person.FirstName + " " + person.LastName
+                });
+
+            if (persons == null)
             {
                 return NotFound();
             }
 
-            return Ok(users);
+            return Ok(persons);
         }
 
         // GET api/users/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var currentUser = SampleData.LoadUsers().FirstOrDefault(user => user.Id == id);
+            var currentPerson = context
+                .Persons
+                .Select(person => new
+                {
+                    Id = person.Id,
+                    Name = person.FirstName + " " + person.LastName
+                })
+                .FirstOrDefault(person => person.Id == id);
+                
 
-            if (currentUser == null)
+            if (currentPerson == null)
             {
                 return NotFound();
             }
 
-            return Ok(currentUser);
+            return Ok(currentPerson);
         }
 
         // POST api/users
