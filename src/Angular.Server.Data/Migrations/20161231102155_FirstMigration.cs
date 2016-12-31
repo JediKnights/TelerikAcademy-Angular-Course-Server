@@ -1,10 +1,10 @@
-﻿namespace Angular.Server.Data.Migrations
-{
-    using System;
-    using System.Collections.Generic;
-    using Microsoft.EntityFrameworkCore.Migrations;
-    using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Metadata;
 
+namespace Angular.Server.Data.Migrations
+{
     public partial class FirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

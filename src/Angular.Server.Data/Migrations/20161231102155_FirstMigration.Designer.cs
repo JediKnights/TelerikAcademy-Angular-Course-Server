@@ -8,7 +8,7 @@ using Angular.Server.Data;
 namespace Angular.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20161230204239_FirstMigration")]
+    [Migration("20161231102155_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
