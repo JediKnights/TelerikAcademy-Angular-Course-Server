@@ -3,73 +3,65 @@
     using System.Linq;
     using Microsoft.AspNetCore.Mvc;
 
-    using Angular.Server.Data;
+    using global::AutoMapper;
+    using global::AutoMapper.QueryableExtensions;
+
+    using Angular.Server.Data.Repositories.Abstractions;
+    using Angular.Server.Models.DomainModels;
+    using Angular.Server.WebAPI.Models;
 
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
-        private ApplicationDbContext context;
+        private IPersonRepository personRepository;
 
-        public UsersController(ApplicationDbContext context)
+        private readonly IMapper mapper;
+
+        public UsersController(IMapper mapper, IPersonRepository personRepository)
         {
-            this.context = context;
+            this.personRepository = personRepository;
+            this.mapper = mapper;
         }
 
-        // GET api/users
         [HttpGet]
         public IActionResult Get()
         {
 
-            var persons = context.Persons.Select(
-                person => new
-                {
-                    Id = person.Id,
-                    Name = person.FirstName + " " + person.LastName
-                });
+            var personsModels = this.personRepository.All().ProjectTo<PersonModel>().ToList();
 
-            if (persons == null)
+            if (personsModels == null)
             {
                 return NotFound();
             }
 
-            return Ok(persons);
+            return Ok(personsModels);
         }
 
-        // GET api/users/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var currentPerson = context
-                .Persons
-                .Select(person => new
-                {
-                    Id = person.Id,
-                    Name = person.FirstName + " " + person.LastName
-                })
-                .FirstOrDefault(person => person.Id == id);
-                
+            var currentPerson = this.personRepository.All().FirstOrDefault(person => person.Id == id);
 
             if (currentPerson == null)
             {
                 return NotFound();
             }
 
-            return Ok(currentPerson);
+            var personModel = mapper.Map<Person, PersonModel>(currentPerson);
+
+            return Ok(personModel);
         }
 
-        // POST api/users
         [HttpPost]
         public void Post([FromBody]string value)
         {
         }
 
-        // PUT api/users/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE api/users/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

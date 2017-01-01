@@ -8,7 +8,11 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
+    using global::AutoMapper;
+
     using Angular.Server.Data;
+    using Angular.Server.Data.Repositories;
+    using Angular.Server.Data.Repositories.Abstractions;
     using Angular.Server.Models.IdentityModels;
     using Angular.Server.WebAPI.Seed;
 
@@ -29,7 +33,6 @@
             Configuration = builder.Build();
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -41,11 +44,16 @@
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            // Add framework services.
+            services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+            services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<IBaseUnitRepository, BaseUnitRepository>();
+
             services.AddMvc();
+
+            services.AddAutoMapper();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));

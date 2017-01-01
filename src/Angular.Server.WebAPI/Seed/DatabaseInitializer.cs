@@ -27,8 +27,8 @@ namespace Angular.Server.WebAPI.Seed
                     {
                         context.Units.AddRange
                         (
-                            new Unit { Name = "Living Space" },
-                            new Unit { Name = "Green House" }
+                            new BaseUnit { Name = "Living Space" },
+                            new BaseUnit { Name = "Green House" }
                         );
                         context.SaveChanges();
                     }
