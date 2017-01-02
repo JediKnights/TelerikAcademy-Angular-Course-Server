@@ -23,7 +23,8 @@
     "AutoMapper.Extensions.Microsoft.DependencyInjection": "1.2.0",
     "Angular.Server.Models": "1.0.0-*",
     "Angular.Server.Data": "1.0.0-*",
-    "Angular.Server.Services": "1.0.0-*"
+    "Angular.Server.Services": "1.0.0-*",
+    "Angular.Server.DI": "1.0.0-*"
   },
 
   "tools": {
@@ -42,7 +43,8 @@
 
   "buildOptions": {
     "emitEntryPoint": true,
-    "preserveCompilationContext": true
+    "preserveCompilationContext": false,
+    "optimize": false
   },
 
   "runtimeOptions": {

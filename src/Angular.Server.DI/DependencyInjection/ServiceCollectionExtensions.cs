@@ -1,11 +1,11 @@
-﻿namespace Angular.Server.WebAPI.DependencyInjection
+﻿namespace Angular.Server.DI.DependencyInjection
 {
-    using Data;
-    using Data.Repositories;
-    using Data.Repositories.Abstractions;
+    using Angular.Server.Data;
+    using Angular.Server.Data.Repositories;
+    using Angular.Server.Data.Repositories.Abstractions;
     using Microsoft.Extensions.DependencyInjection;
-    using Services;
-    using Services.Abstractions;
+    using Angular.Server.Services;
+    using Angular.Server.Services.Abstractions;
 
     public static class ServiceCollectionExtensions
     {

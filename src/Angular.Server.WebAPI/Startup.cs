@@ -11,9 +11,9 @@
     using global::AutoMapper;
 
     using Angular.Server.Data;
+    using Angular.Server.DI.DependencyInjection;
     using Angular.Server.Models.IdentityModels;
     using Angular.Server.WebAPI.Seed;
-    using Angular.Server.WebAPI.DependencyInjection;
 
     public class Startup
     {
@@ -58,9 +58,10 @@
 
             if (env.IsDevelopment())
             {
+                
+
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-
                     serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
 
                     DatabaseInitializer.SeedData(app.ApplicationServices).Wait();

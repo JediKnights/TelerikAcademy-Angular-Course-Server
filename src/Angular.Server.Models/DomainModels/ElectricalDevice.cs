@@ -9,6 +9,8 @@
 
         public string SerialNumber { get; set; }
 
+        public double? MeasuringUnitCurrentLevel { get; set; }
+
         public virtual ElectricalDeviceModel ElectricalDeviceModel { get; set; }
 
         public int ElectricalDeviceModelId { get; set; }

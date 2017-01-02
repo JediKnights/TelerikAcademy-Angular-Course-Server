@@ -17,6 +17,30 @@
 
         public DbSet<BaseUnit> BaseUnits { get; set; }
 
+        public DbSet<ElectricalDevice> ElectricalDevices { get; set; }
+
+        public DbSet<ElectricalDeviceModel> ElectricalDeviceModels { get; set; }
+
+        public DbSet<ElectricalDeviceType> ElectricalDeviceTypes { get; set; }
+
+        public DbSet<ElectricalDevicesConsumptionHistory> ElectricalDevicesConsumptionHistories { get; set; }
+
+        public DbSet<ElectricalSystem> ElectricalSystems { get; set; }
+
+        public DbSet<ElectricalSystemType> ElectricalSystemTypes { get; set; }
+
+        public DbSet<EnergyGenerator> EnergyGenerators { get; set; }
+
+        public DbSet<EnergyGeneratorProductionHistory> EnergyGeneratorProductionHistories { get; set; }
+
+        public DbSet<BatteryPack> BatteryPacks { get; set; }
+
+        public DbSet<BatteryPackModel> BatteryPackModels { get; set; }
+
+        public DbSet<BatteryPackChargeHistory> BatteryPackChargeHistories { get; set; }
+
+        public DbSet<Manufacturer> Manufacturers { get; set; }
+
         public DbSet<Person> Persons { get; set; }
 
         public override int SaveChanges()
