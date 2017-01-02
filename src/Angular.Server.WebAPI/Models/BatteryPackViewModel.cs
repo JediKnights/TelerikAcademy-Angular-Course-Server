@@ -1,9 +1,9 @@
 ﻿namespace Angular.Server.WebAPI.Models
 {
-    public class PersonModel
+    public class BatteryPackViewModel
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public double CurrentCharge { get; set; }
     }
 }

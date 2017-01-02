@@ -8,8 +8,10 @@
     {
         public MappingProfile()
         {
-            CreateMap<Person, PersonModel>()
+            CreateMap<Person, PersonViewModel>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
+
+            CreateMap<BaseUnit, BaseUnitViewModel>();
         }
     }
 }

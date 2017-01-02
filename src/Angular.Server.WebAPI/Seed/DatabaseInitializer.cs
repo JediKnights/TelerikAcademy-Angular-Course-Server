@@ -23,73 +23,73 @@ namespace Angular.Server.WebAPI.Seed
 
                 if (context.AllMigrationsApplied())
                 {
-                    if (!context.Units.Any())
+                    if (!context.BaseUnits.Any())
                     {
-                        context.Units.AddRange
+                        context.BaseUnits.AddRange
                         (
                             new BaseUnit { Name = "Living Space" },
                             new BaseUnit { Name = "Green House" }
                         );
                         context.SaveChanges();
                     }
-                }
 
-                if (!context.Users.Any())
-                {
-                    var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
-
-                    var personsWithPasswords = new List<PersonWithPassword>
+                    if (!context.Users.Any())
                     {
-                        new PersonWithPassword
-                        (
-                            new ApplicationUser
-                            {
-                                UserName = "john.doe",
-                                Email = "john.doe@sample.com",
-                                Address = "45 Long Beach Blvd, Miami"
-                            },
-                            new Person
-                            {
-                                FirstName = "John",
-                                LastName = "Doe"
-                            },
-                            "NewPassword123$"
-                        ),
-                        new PersonWithPassword
-                        (
-                            new ApplicationUser
-                            {
-                                UserName = "michael.jordan",
-                                Email = "michael.jordan@sample.com",
-                                Address = "15 Square Ave, London"
-                            },
-                            new Person
-                            {
-                                FirstName = "Michael",
-                                LastName = "Jordan"
-                            },
-                            "FreshPassword123$"
-                        )
-                    };
+                        var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
 
-                    foreach (var personWithPassword in personsWithPasswords)
-                    {
-                        var applicationUser = personWithPassword.AppUser;
-
-                        IdentityResult result = 
-                            await userManager.CreateAsync(applicationUser, personWithPassword.Password);
-
-                        if (result.Succeeded)
+                        var personsWithPasswords = new List<PersonWithPassword>
                         {
-                            var person = personWithPassword.Person;
+                            new PersonWithPassword
+                            (
+                                new ApplicationUser
+                                {
+                                    UserName = "john.doe",
+                                    Email = "john.doe@sample.com",
+                                    Address = "45 Long Beach Blvd, Miami"
+                                },
+                                new Person
+                                {
+                                    FirstName = "John",
+                                    LastName = "Doe"
+                                },
+                                "NewPassword123$"
+                            ),
+                            new PersonWithPassword
+                            (
+                                new ApplicationUser
+                                {
+                                    UserName = "michael.jordan",
+                                    Email = "michael.jordan@sample.com",
+                                    Address = "15 Square Ave, London"
+                                },
+                                new Person
+                                {
+                                    FirstName = "Michael",
+                                    LastName = "Jordan"
+                                },
+                                "FreshPassword123$"
+                            )
+                        };
 
-                            person.ApplicationUserId = applicationUser.Id;
+                        foreach (var personWithPassword in personsWithPasswords)
+                        {
+                            var applicationUser = personWithPassword.AppUser;
 
-                            context.Persons.Add(person);
+                            IdentityResult result =
+                                await userManager.CreateAsync(applicationUser, personWithPassword.Password);
+
+                            if (result.Succeeded)
+                            {
+                                var person = personWithPassword.Person;
+
+                                person.ApplicationUserId = applicationUser.Id;
+
+                                context.Persons.Add(person);
+                            }
                         }
-                    }
 
-                    context.SaveChanges();
+                        context.SaveChanges();
+                    }
                 }
             }
         }

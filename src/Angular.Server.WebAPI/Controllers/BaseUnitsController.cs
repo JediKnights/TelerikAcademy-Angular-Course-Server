@@ -6,51 +6,51 @@
     using global::AutoMapper;
     using global::AutoMapper.QueryableExtensions;
 
-    using Angular.Server.Models.DomainModels;
-    using Angular.Server.Services.Abstractions;
-    using Angular.Server.WebAPI.Models;
+    using Services.Abstractions;
+    using Models;
+    using Server.Models.DomainModels;
 
     [Route("api/[controller]")]
-    public class UsersController : Controller
+    public class BaseUnitsController : Controller
     {
-        private IPersonService personService;
+        private IBaseUnitService baseUnitService;
 
         private readonly IMapper mapper;
 
-        public UsersController(IPersonService personService, IMapper mapper)
+        public BaseUnitsController(IBaseUnitService baseUnitService, IMapper mapper)
         {
-            this.personService = personService;
+            this.baseUnitService = baseUnitService;
             this.mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
+            var baseUnitViewModels = this.baseUnitService.All().ProjectTo<BaseUnitViewModel>().ToList();
 
-            var personsModels = this.personService.All().ProjectTo<PersonViewModel>().ToList();
-
-            if (personsModels == null)
+            if (baseUnitViewModels == null)
             {
                 return NotFound();
             }
 
-            return Ok(personsModels);
+            return Ok(baseUnitViewModels);
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var currentPerson = this.personService.All().FirstOrDefault(person => person.Id == id);
+            var baseUnit = this.baseUnitService.All().FirstOrDefault(b => b.Id == id);
 
-            if (currentPerson == null)
+            if (baseUnit == null)
             {
                 return NotFound();
             }
 
-            var personModel = mapper.Map<Person, PersonViewModel>(currentPerson);
+            var baseUnitViewModels = mapper.Map<BaseUnit, BaseUnitViewModel>(baseUnit);
 
-            return Ok(personModel);
+            return Ok(baseUnitViewModels);
         }
+
 
         [HttpPost]
         public void Post([FromBody]string value)

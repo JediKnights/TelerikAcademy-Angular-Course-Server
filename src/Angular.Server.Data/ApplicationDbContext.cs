@@ -15,7 +15,7 @@
         {
         }
 
-        public DbSet<BaseUnit> Units { get; set; }
+        public DbSet<BaseUnit> BaseUnits { get; set; }
 
         public DbSet<Person> Persons { get; set; }
 

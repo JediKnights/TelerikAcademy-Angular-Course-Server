@@ -4,11 +4,11 @@
 
     using Angular.Server.Models.SystemModels;
 
-    public class BaseUnit : AuditableEntity
+    public class ElectricalSystemType : AuditableEntity
     {
         private ICollection<ElectricalSystem> electricalSystems;
 
-        public BaseUnit()
+        public ElectricalSystemType()
         {
             this.electricalSystems = new HashSet<ElectricalSystem>();
         }
@@ -17,11 +17,7 @@
 
         public string Name { get; set; }
 
-        public double Area { get; set; }
-
-        public double Volume { get; set; }
-
-        public virtual ICollection<ElectricalSystem> ElectricalSystems
+        public ICollection<ElectricalSystem> ElectricalSystems
         {
             get { return this.electricalSystems; }
             set { this.electricalSystems = value; }

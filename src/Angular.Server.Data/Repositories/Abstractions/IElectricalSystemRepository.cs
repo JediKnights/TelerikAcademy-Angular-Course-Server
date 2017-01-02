@@ -2,7 +2,7 @@
 {
     using Angular.Server.Models.DomainModels;
 
-    public interface IPersonRepository : IAuditableEntityRepository<Person>
+    public interface IElectricalSystemRepository : IAuditableEntityRepository<ElectricalSystem>
     {
     }
 }
