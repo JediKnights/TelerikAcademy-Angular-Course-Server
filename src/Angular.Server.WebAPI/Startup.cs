@@ -11,12 +11,9 @@
     using global::AutoMapper;
 
     using Angular.Server.Data;
-    using Angular.Server.Data.Repositories;
-    using Angular.Server.Data.Repositories.Abstractions;
     using Angular.Server.Models.IdentityModels;
     using Angular.Server.WebAPI.Seed;
-    using Services.Abstractions;
-    using Services;
+    using Angular.Server.WebAPI.DependencyInjection;
 
     public class Startup
     {
@@ -46,9 +43,8 @@
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            this.BindRepositories(services);
-
-            this.BindServicesFromServiceProject(services);
+            //Custom extension method for DI
+            services.AddDependencyInjection("BuiltInDependencyInjector");
 
             services.AddMvc();
 
@@ -76,65 +72,6 @@
             app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
 
             app.UseMvc();
-        }
-
-        public void BindRepositories(IServiceCollection services)
-        {
-            services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-            services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
-
-            services.AddScoped<IBaseUnitRepository, BaseUnitRepository>();
-
-            services.AddScoped<IBatteryPackRepository, BatteryPackRepository>();
-
-            services.AddScoped<IElectricalDeviceConsumptionHistoryRepository,
-                ElectricalDeviceConsumptionHistoryRepository>();
-
-            services.AddScoped<IElectricalDeviceRepository, ElectricalDeviceRepository>();
-
-            services.AddScoped<IElectricalDeviceTypeRepository, ElectricalDeviceTypeRepository>();
-
-            services.AddScoped<IElectricalSystemRepository, ElectricalSystemRepository>();
-
-            services.AddScoped<IElectricalSystemTypeRepository, ElectricalSystemTypeRepository>();
-
-            services.AddScoped<IEnergyGeneratorProductionHistoryRepository,
-                EnergyGeneratorProductionHistoryRepository>();
-
-            services.AddScoped<IEnergyGeneratorRepository, EnergyGeneratorRepository>();
-
-            services.AddScoped<IPersonRepository, PersonRepository>();
-
-            services.AddScoped<IBaseUnitService, BaseUnitService>();
-
-            services.AddScoped<IBatteryPackService, BatteryPackService>();
-
-            services.AddScoped<IElectricalDeviceService, ElectricalDeviceService>();
-
-            services.AddScoped<IElectricalDeviceModelRepository, ElectricalDeviceModelRepository>();
-
-            services.AddScoped<IElectricalSystemService, ElectricalSystemService>();
-
-            services.AddScoped<IEnergyGeneratorService, EnergyGeneratorService>();
-
-            services.AddScoped<IPersonService, PersonService>();
-        }
-
-        public void BindServicesFromServiceProject(IServiceCollection services)
-        {
-            services.AddScoped<IBaseUnitService, BaseUnitService>();
-
-            services.AddScoped<IBatteryPackService, BatteryPackService>();
-
-            services.AddScoped<IElectricalDeviceService, ElectricalDeviceService>();
-
-            services.AddScoped<IElectricalDeviceModelService, ElectricalDeviceModelService>();
-
-            services.AddScoped<IElectricalSystemService, ElectricalSystemService>();
-
-            services.AddScoped<IEnergyGeneratorService, EnergyGeneratorService>();
-
-            services.AddScoped<IPersonService, PersonService>();
         }
     }
 }
