@@ -1,6 +1,6 @@
-﻿namespace Angular.Server.WebAPI.Models
+﻿namespace Angular.Server.WebAPI.Models.Person
 {
-    public class PersonViewModel
+    public class PersonListModel
     {
         public int Id { get; set; }
 

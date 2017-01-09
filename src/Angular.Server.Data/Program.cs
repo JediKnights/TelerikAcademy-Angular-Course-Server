@@ -1,4 +1,4 @@
-﻿using System;namespace Angular.Server.Data
+﻿namespace Angular.Server.Data
 {
     public class Program
     {

@@ -1,15 +1,15 @@
-﻿namespace Angular.Server.WebAPI.Controllers
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+
+using Angular.Server.Models.DomainModels;
+using Angular.Server.Services.Abstractions;
+using Angular.Server.WebAPI.Models.BaseUnit;
+
+namespace Angular.Server.WebAPI.Controllers
 {
-    using System.Linq;
-    using Microsoft.AspNetCore.Mvc;
-
-    using global::AutoMapper;
-    using global::AutoMapper.QueryableExtensions;
-
-    using Services.Abstractions;
-    using Models;
-    using Server.Models.DomainModels;
-
     [Route("api/[controller]")]
     public class BaseUnitsController : Controller
     {
@@ -26,45 +26,85 @@
         [HttpGet]
         public IActionResult Get()
         {
-            var baseUnitViewModels = this.baseUnitService.All().ProjectTo<BaseUnitViewModel>().ToList();
+            var baseUnitListModels = this.baseUnitService.All().ProjectTo<BaseUnitListModel>().ToList();
 
-            if (baseUnitViewModels == null)
+            if (baseUnitListModels == null)
             {
                 return NotFound();
             }
 
-            return Ok(baseUnitViewModels);
+            return Ok(baseUnitListModels);
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var baseUnit = this.baseUnitService.All().FirstOrDefault(b => b.Id == id);
+            var baseUnitDetailsModel = this.baseUnitService.All()
+                .Where(bu => bu.Id == id)
+                .ProjectTo<BaseUnitDetailsModel>()
+                .FirstOrDefault();
+
+            if (baseUnitDetailsModel == null)
+            {
+                return NotFound();
+            }
+
+            return new ObjectResult(baseUnitDetailsModel);
+        }
+
+
+        [HttpPost]
+        public IActionResult Post([FromBody]BaseUnitCreateModel baseUnitCreateModel)
+        {
+            if (baseUnitCreateModel == null)
+            {
+                return BadRequest();
+            }
+
+            var baseUnit = new BaseUnit();
+
+            baseUnit = mapper.Map<BaseUnitCreateModel, BaseUnit>(baseUnitCreateModel);
+
+            this.baseUnitService.Add(baseUnit);
+
+            return CreatedAtAction("Post", new { id = baseUnit.Id }, baseUnit);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody]BaseUnitEditModel baseUnitEditModel)
+        {
+            if (baseUnitEditModel == null || baseUnitEditModel.Id != id)
+            {
+                return BadRequest();
+            }
+
+            var baseUnit = this.baseUnitService.GetById(id);
 
             if (baseUnit == null)
             {
                 return NotFound();
             }
 
-            var baseUnitViewModels = mapper.Map<BaseUnit, BaseUnitViewModel>(baseUnit);
+            Mapper.Map(baseUnitEditModel, baseUnit);
 
-            return Ok(baseUnitViewModels);
-        }
+            this.baseUnitService.Update(baseUnit);
 
-
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
+            return new NoContentResult();
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var baseUnit = this.baseUnitService.GetById(id);
+
+            if (baseUnit == null)
+            {
+                return NotFound();
+            }
+
+            this.baseUnitService.Delete(baseUnit);
+
+            return new NoContentResult();
         }
     }
 }

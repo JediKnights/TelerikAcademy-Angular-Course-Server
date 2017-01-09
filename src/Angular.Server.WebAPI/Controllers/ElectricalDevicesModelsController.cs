@@ -1,15 +1,15 @@
-﻿namespace Angular.Server.WebAPI.Controllers
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+
+using Angular.Server.Models.DomainModels;
+using Angular.Server.Services.Abstractions;
+using Angular.Server.WebAPI.Models.ElectricalDeviceModel;
+
+namespace Angular.Server.WebAPI.Controllers
 {
-    using System.Linq;
-    using Microsoft.AspNetCore.Mvc;
-
-    using global::AutoMapper;
-    using global::AutoMapper.QueryableExtensions;
-
-    using Services.Abstractions;
-    using Models;
-    using Server.Models.DomainModels;
-
     [Route("api/[controller]")]
     public class ElectricalDevicesModelsController : Controller
     {
@@ -27,30 +27,31 @@
         [HttpGet]
         public IActionResult Get()
         {
-            var devicesModelsViewModels = 
-                this.electricalDeviceModelService.All().ProjectTo<ElectricalDeviceModelViewModel>().ToList();
+            var devicesModelsListModels = 
+                this.electricalDeviceModelService.All().ProjectTo<ElectricalDeviceModelListModel>().ToList();
 
-            if (devicesModelsViewModels == null)
+            if (devicesModelsListModels == null)
             {
                 return NotFound();
             }
 
-            return Ok(devicesModelsViewModels);
+            return Ok(devicesModelsListModels);
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var electricalDeviceModel = this.electricalDeviceModelService.All().FirstOrDefault(ed => ed.Id == id);
+            var electricalDeviceDetailsModel = this.electricalDeviceModelService.All()
+                .Where(ed => ed.Id == id)
+                .ProjectTo<ElectricalDeviceModelDetailsModel>()
+                .FirstOrDefault();
 
-            if (electricalDeviceModel == null)
+            if (electricalDeviceDetailsModel == null)
             {
                 return NotFound();
             }
 
-            var electricalDeviceModelViewModel = mapper.Map<ElectricalDeviceModel, ElectricalDeviceModelViewModel>(electricalDeviceModel);
-
-            return Ok(electricalDeviceModelViewModel);
+            return Ok(electricalDeviceDetailsModel);
         }
 
         [HttpPost]

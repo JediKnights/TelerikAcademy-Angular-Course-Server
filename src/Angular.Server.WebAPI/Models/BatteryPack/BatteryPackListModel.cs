@@ -1,6 +1,6 @@
-﻿namespace Angular.Server.WebAPI.Models
+﻿namespace Angular.Server.WebAPI.Models.BatteryPack
 {
-    public class BatteryPackViewModel
+    public class BatteryPackListModel
     {
         public int Id { get; set; }
 

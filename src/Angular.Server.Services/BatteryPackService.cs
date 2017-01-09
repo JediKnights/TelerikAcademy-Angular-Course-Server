@@ -1,13 +1,12 @@
-﻿namespace Angular.Server.Services
+﻿using System;
+using System.Linq;
+
+using Angular.Server.Data.Repositories.Abstractions;
+using Angular.Server.Models.DomainModels;
+using Angular.Server.Services.Abstractions;
+
+namespace Angular.Server.Services
 {
-    using System;
-    using System.Linq;
-
-    using Angular.Server.Data.Repositories;
-    using Angular.Server.Data.Repositories.Abstractions;
-    using Angular.Server.Models.DomainModels;
-    using Abstractions;
-
     public class BatteryPackService : IBatteryPackService
     {
         private readonly IBatteryPackRepository batteryPackRepository;
@@ -22,7 +21,7 @@
             return this.batteryPackRepository.All();
         }
 
-        public BatteryPack GetById(Guid id)
+        public BatteryPack GetById(int id)
         {
             return this.batteryPackRepository.GetById(id);
         }

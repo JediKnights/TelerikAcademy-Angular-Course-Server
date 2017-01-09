@@ -1,13 +1,12 @@
-﻿namespace Angular.Server.Services
+﻿using System;
+using System.Linq;
+
+using Angular.Server.Data.Repositories.Abstractions;
+using Angular.Server.Models.DomainModels;
+using Angular.Server.Services.Abstractions;
+
+namespace Angular.Server.Services
 {
-    using System;
-    using System.Linq;
-
-    using Angular.Server.Data.Repositories;
-    using Angular.Server.Data.Repositories.Abstractions;
-    using Angular.Server.Models.DomainModels;
-    using Abstractions;
-
     public class BaseUnitService : IBaseUnitService
     {
         private readonly IBaseUnitRepository baseUnitRepository;
@@ -22,7 +21,7 @@
             return this.baseUnitRepository.All();
         }
 
-        public BaseUnit GetById(Guid id)
+        public BaseUnit GetById(int id)
         {
             return this.baseUnitRepository.GetById(id);
         }

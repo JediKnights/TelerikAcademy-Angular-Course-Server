@@ -1,9 +1,7 @@
-﻿namespace Angular.Server.Models.DomainModels
+﻿using System;
+
+namespace Angular.Server.Models.DomainModels
 {
-    using System;
-
-    using Angular.Server.Models.SystemModels;
-
     public class EnergyGeneratorProductionHistory
     {
         public int Id { get; set; }

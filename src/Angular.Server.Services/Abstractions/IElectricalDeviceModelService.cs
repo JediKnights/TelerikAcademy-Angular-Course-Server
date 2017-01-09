@@ -1,8 +1,9 @@
-﻿namespace Angular.Server.Services.Abstractions
-{
-    using Angular.Server.Models.DomainModels;
+﻿using Angular.Server.Models.DomainModels;
 
+namespace Angular.Server.Services.Abstractions
+{
     public interface IElectricalDeviceModelService : IRepositoryService<ElectricalDeviceModel>
     {
+        ElectricalDeviceModel GetById(int id);
     }
 }

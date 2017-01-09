@@ -1,6 +1,6 @@
-﻿namespace Angular.Server.WebAPI.Models
+﻿namespace Angular.Server.WebAPI.Models.ElectricalDevice
 {
-    public class ElectricalDeviceViewModel
+    public class ElectricalDeviceDetailsModel
     {
         public int Id { get; set; }
 

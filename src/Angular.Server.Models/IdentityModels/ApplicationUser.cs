@@ -1,11 +1,10 @@
-﻿namespace Angular.Server.Models.IdentityModels
-{
-    using System;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-    
-    using SystemModels;
+﻿using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-    // Add profile data for application users by adding properties to the ApplicationUser class
+using Angular.Server.Models.SystemModels;
+
+namespace Angular.Server.Models.IdentityModels
+{
     public class ApplicationUser : IdentityUser, IAuditableEntity
     {
         public string Address { get; set; }

@@ -1,8 +1,8 @@
-﻿namespace Angular.Server.Data.Repositories
-{
-    using Angular.Server.Data.Repositories.Abstractions;
-    using Angular.Server.Models.IdentityModels;
+﻿using Angular.Server.Data.Repositories.Abstractions;
+using Angular.Server.Models.IdentityModels;
 
+namespace Angular.Server.Data.Repositories
+{
     public class ApplicationUserRepository : AuditableEntityRepository<ApplicationUser>, IApplicationUserRepository
     {
         private readonly IApplicationDbContext context;

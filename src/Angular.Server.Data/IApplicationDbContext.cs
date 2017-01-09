@@ -1,9 +1,8 @@
-﻿namespace Angular.Server.Data
-{
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.ChangeTracking;
-    using Angular.Server.Models.IdentityModels;
+﻿using Microsoft.EntityFrameworkCore;
+using Angular.Server.Models.IdentityModels;
 
+namespace Angular.Server.Data
+{
     public interface IApplicationDbContext
     {
         DbSet<ApplicationUser> Users { get; set; }

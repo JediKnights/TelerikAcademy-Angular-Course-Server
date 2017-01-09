@@ -1,20 +1,20 @@
-﻿namespace Angular.Server.WebAPI
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+using AutoMapper;
+
+using Angular.Server.Data;
+using Angular.Server.DI.DependencyInjection;
+using Angular.Server.Models.IdentityModels;
+using Angular.Server.WebAPI.Seed;
+
+namespace Angular.Server.WebAPI
 {
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
-
-    using global::AutoMapper;
-
-    using Angular.Server.Data;
-    using Angular.Server.DI.DependencyInjection;
-    using Angular.Server.Models.IdentityModels;
-    using Angular.Server.WebAPI.Seed;
-
     public class Startup
     {
         public IConfigurationRoot Configuration { get; }
@@ -26,8 +26,6 @@
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
-
-            builder.AddEnvironmentVariables();
 
             Configuration = builder.Build();
         }
@@ -43,12 +41,12 @@
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            //Custom extension method for DI
-            services.AddDependencyInjection("BuiltInDependencyInjector");
-
             services.AddMvc();
 
             services.AddAutoMapper();
+
+            //Custom extension method for DI
+            services.AddDependencyInjection("BuiltInDependencyInjector");
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -58,8 +56,6 @@
 
             if (env.IsDevelopment())
             {
-                
-
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
                     serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
@@ -70,7 +66,7 @@
 
             app.UseIdentity();
 
-            app.UseCors(builder => builder.WithOrigins("http://localhost:4200"));
+            app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod());
 
             app.UseMvc();
         }

@@ -1,8 +1,8 @@
-﻿namespace Angular.Server.Data
-{
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
+namespace Angular.Server.Data
+{
     public class ApplicationDbContextFactory : IDbContextFactory<ApplicationDbContext>
     {
         public ApplicationDbContext Create(DbContextFactoryOptions options)

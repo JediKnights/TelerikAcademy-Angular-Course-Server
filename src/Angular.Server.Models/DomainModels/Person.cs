@@ -1,8 +1,8 @@
-﻿namespace Angular.Server.Models.DomainModels
-{
-    using Angular.Server.Models.IdentityModels;
-    using Angular.Server.Models.SystemModels;
+﻿using Angular.Server.Models.IdentityModels;
+using Angular.Server.Models.SystemModels;
 
+namespace Angular.Server.Models.DomainModels
+{
     public class Person: AuditableEntity
     {
         public int Id { get; set; }

@@ -1,12 +1,12 @@
-﻿namespace Angular.Server.Services
+﻿using System;
+using System.Linq;
+
+using Angular.Server.Data.Repositories.Abstractions;
+using Angular.Server.Models.DomainModels;
+using Angular.Server.Services.Abstractions;
+
+namespace Angular.Server.Services
 {
-    using System;
-    using System.Linq;
-
-    using Angular.Server.Data.Repositories.Abstractions;
-    using Angular.Server.Models.DomainModels;
-    using Abstractions;
-
     public class ElectricalSystemService : IElectricalSystemService
     {
         private readonly IElectricalSystemRepository electricalSystemRepository;
@@ -21,7 +21,7 @@
             return this.electricalSystemRepository.All();
         }
 
-        public ElectricalSystem GetById(Guid id)
+        public ElectricalSystem GetById(int id)
         {
             return this.electricalSystemRepository.GetById(id);
         }

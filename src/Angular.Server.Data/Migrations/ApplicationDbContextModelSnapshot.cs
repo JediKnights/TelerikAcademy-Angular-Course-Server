@@ -47,8 +47,6 @@ namespace Angular.Server.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("BatteryPackModelId");
-
                     b.Property<DateTime?>("CreatedOn");
 
                     b.Property<double>("CurrentCharge");
@@ -57,13 +55,17 @@ namespace Angular.Server.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
+                    b.Property<int>("ElectricalDeviceModelId");
+
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime?>("LastUpdatedOn");
 
+                    b.Property<string>("SerialNumber");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("BatteryPackModelId");
+                    b.HasIndex("ElectricalDeviceModelId");
 
                     b.ToTable("BatteryPacks");
                 });
@@ -80,36 +82,6 @@ namespace Angular.Server.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BatteryPackChargeHistories");
-                });
-
-            modelBuilder.Entity("Angular.Server.Models.DomainModels.BatteryPackModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("Capacity");
-
-                    b.Property<DateTime?>("CreatedOn");
-
-                    b.Property<string>("DeletedBy");
-
-                    b.Property<DateTime?>("DeletedOn");
-
-                    b.Property<string>("Description");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("LastUpdatedOn");
-
-                    b.Property<int>("ManufacturerId");
-
-                    b.Property<string>("ModelName");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ManufacturerId");
-
-                    b.ToTable("BatteryPackModels");
                 });
 
             modelBuilder.Entity("Angular.Server.Models.DomainModels.ElectricalDevice", b =>
@@ -150,6 +122,8 @@ namespace Angular.Server.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("Capacity");
 
                     b.Property<DateTime?>("CreatedOn");
 
@@ -300,6 +274,8 @@ namespace Angular.Server.Data.Migrations
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime?>("LastUpdatedOn");
+
+                    b.Property<string>("SerialNumber");
 
                     b.HasKey("Id");
 
@@ -547,17 +523,9 @@ namespace Angular.Server.Data.Migrations
 
             modelBuilder.Entity("Angular.Server.Models.DomainModels.BatteryPack", b =>
                 {
-                    b.HasOne("Angular.Server.Models.DomainModels.BatteryPackModel", "BatteryPackModel")
-                        .WithMany("BatteryPacks")
-                        .HasForeignKey("BatteryPackModelId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Angular.Server.Models.DomainModels.BatteryPackModel", b =>
-                {
-                    b.HasOne("Angular.Server.Models.DomainModels.Manufacturer", "Manufacturer")
-                        .WithMany("BatteryPackModels")
-                        .HasForeignKey("ManufacturerId")
+                    b.HasOne("Angular.Server.Models.DomainModels.ElectricalDeviceModel", "ElectricalDeviceModel")
+                        .WithMany()
+                        .HasForeignKey("ElectricalDeviceModelId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

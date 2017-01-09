@@ -1,10 +1,11 @@
-﻿namespace Angular.Server.Data.Repositories
-{
-    using System;
-    using System.Linq;
-    using Abstractions;
-    using Models.SystemModels;
+﻿using System;
+using System.Linq;
 
+using Angular.Server.Data.Repositories.Abstractions;
+using Angular.Server.Models.SystemModels;
+
+namespace Angular.Server.Data.Repositories
+{
     public class AuditableEntityRepository<T> : GenericRepository<T>, IAuditableEntityRepository<T> where T :
         class, IAuditableEntity
     {

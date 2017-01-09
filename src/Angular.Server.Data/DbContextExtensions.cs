@@ -1,10 +1,10 @@
-﻿namespace Angular.Server.Data
-{
-    using System.Linq;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Infrastructure;
-    using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 
+namespace Angular.Server.Data
+{
     public static class DbContextExtensions
     {
         public static bool AllMigrationsApplied(this DbContext context)

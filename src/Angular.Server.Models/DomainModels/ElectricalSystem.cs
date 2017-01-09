@@ -1,9 +1,9 @@
-﻿namespace Angular.Server.Models.DomainModels
+﻿using System.Collections.Generic;
+
+using Angular.Server.Models.SystemModels;
+
+namespace Angular.Server.Models.DomainModels
 {
-    using System.Collections.Generic;
-
-    using Angular.Server.Models.SystemModels;
-
     public class ElectricalSystem : AuditableEntity
     {
         private ICollection<ElectricalDevice> electricalDevices;
@@ -25,7 +25,7 @@
 
         public int ElectricalSystemTypeId { get; set; }
 
-        public ICollection<ElectricalDevice> ElectricalDevices
+        public virtual ICollection<ElectricalDevice> ElectricalDevices
         {
             get { return this.electricalDevices; }
             set { this.electricalDevices = value; }

@@ -1,15 +1,17 @@
-﻿namespace Angular.Server.DI.DependencyInjection
-{
-    using Angular.Server.Data;
-    using Angular.Server.Data.Repositories;
-    using Angular.Server.Data.Repositories.Abstractions;
-    using Microsoft.Extensions.DependencyInjection;
-    using Angular.Server.Services;
-    using Angular.Server.Services.Abstractions;
+﻿using Microsoft.Extensions.DependencyInjection;
 
+using Angular.Server.Data;
+using Angular.Server.Data.Repositories;
+using Angular.Server.Data.Repositories.Abstractions;
+using Angular.Server.Services;
+using Angular.Server.Services.Abstractions;
+
+namespace Angular.Server.DI.DependencyInjection
+{
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddDependencyInjection(this IServiceCollection services, string dependencyInjectorName)
+        public static IServiceCollection AddDependencyInjection(
+            this IServiceCollection services, string dependencyInjectorName)
         {
             if (dependencyInjectorName == "BuiltInDependencyInjector")
             {
@@ -23,6 +25,7 @@
         public static void BindRepositories(IServiceCollection services)
         {
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+
             services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
 
             services.AddScoped<IBaseUnitRepository, BaseUnitRepository>();
@@ -47,19 +50,7 @@
 
             services.AddScoped<IPersonRepository, PersonRepository>();
 
-            services.AddScoped<IBaseUnitService, BaseUnitService>();
-
-            services.AddScoped<IBatteryPackService, BatteryPackService>();
-
-            services.AddScoped<IElectricalDeviceService, ElectricalDeviceService>();
-
             services.AddScoped<IElectricalDeviceModelRepository, ElectricalDeviceModelRepository>();
-
-            services.AddScoped<IElectricalSystemService, ElectricalSystemService>();
-
-            services.AddScoped<IEnergyGeneratorService, EnergyGeneratorService>();
-
-            services.AddScoped<IPersonService, PersonService>();
         }
 
         public static void BindServicesFromServiceProject(IServiceCollection services)
@@ -70,9 +61,13 @@
 
             services.AddScoped<IElectricalDeviceService, ElectricalDeviceService>();
 
+            services.AddScoped<IElectricalDeviceTypeService, ElectricalDeviceTypeService>();
+
             services.AddScoped<IElectricalDeviceModelService, ElectricalDeviceModelService>();
 
             services.AddScoped<IElectricalSystemService, ElectricalSystemService>();
+
+            services.AddScoped<IElectricalSystemTypeService, ElectricalSystemTypeService>();
 
             services.AddScoped<IEnergyGeneratorService, EnergyGeneratorService>();
 

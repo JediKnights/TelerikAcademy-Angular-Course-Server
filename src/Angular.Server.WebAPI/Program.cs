@@ -1,10 +1,10 @@
-﻿namespace Angular.Server.WebAPI
-{
-    using System.IO;
-    using Microsoft.AspNetCore.Hosting;
-    using System.Collections.Generic;
-    using Microsoft.Extensions.Configuration;
+﻿using System.Collections.Generic;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
+namespace Angular.Server.WebAPI
+{
     public class Program
     {
         private static readonly Dictionary<string, string> defaults =

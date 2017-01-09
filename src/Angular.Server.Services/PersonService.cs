@@ -1,12 +1,12 @@
-﻿namespace Angular.Server.Services
+﻿using System;
+using System.Linq;
+
+using Angular.Server.Data.Repositories.Abstractions;
+using Angular.Server.Models.DomainModels;
+using Angular.Server.Services.Abstractions;
+
+namespace Angular.Server.Services
 {
-    using System;
-    using System.Linq;
-
-    using Angular.Server.Data.Repositories.Abstractions;
-    using Angular.Server.Models.DomainModels;
-    using Abstractions;
-
     public class PersonService : IPersonService
     {
         private readonly IPersonRepository personRepository;
@@ -21,7 +21,7 @@
             return this.personRepository.All();
         }
 
-        public Person GetById(Guid id)
+        public Person GetById(int id)
         {
             return this.personRepository.GetById(id);
         }

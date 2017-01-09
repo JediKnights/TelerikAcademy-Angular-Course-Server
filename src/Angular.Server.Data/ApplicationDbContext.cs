@@ -1,13 +1,11 @@
-﻿namespace Angular.Server.Data
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+using Angular.Server.Models.DomainModels;
+using Angular.Server.Models.IdentityModels;
+
+namespace Angular.Server.Data
 {
-    using System;
-    using System.Linq;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore;
-
-    using Angular.Server.Models.DomainModels;
-    using Angular.Server.Models.IdentityModels;
-
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -34,8 +32,6 @@
         public DbSet<EnergyGeneratorProductionHistory> EnergyGeneratorProductionHistories { get; set; }
 
         public DbSet<BatteryPack> BatteryPacks { get; set; }
-
-        public DbSet<BatteryPackModel> BatteryPackModels { get; set; }
 
         public DbSet<BatteryPackChargeHistory> BatteryPackChargeHistories { get; set; }
 

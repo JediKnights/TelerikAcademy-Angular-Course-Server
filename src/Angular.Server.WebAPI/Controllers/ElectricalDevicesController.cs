@@ -1,14 +1,15 @@
-﻿namespace Angular.Server.WebAPI.Controllers
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+
+using Angular.Server.Models.DomainModels;
+using Angular.Server.Services.Abstractions;
+using Angular.Server.WebAPI.Models.ElectricalDevice;
+
+namespace Angular.Server.WebAPI.Controllers
 {
-    using System.Linq;
-    using Microsoft.AspNetCore.Mvc;
-
-    using global::AutoMapper;
-    using global::AutoMapper.QueryableExtensions;
-    using Services.Abstractions;
-    using Angular.Server.WebAPI.Models;
-    using Server.Models.DomainModels;
-
     [Route("api/[controller]")]
     public class ElectricalDevicesController : Controller
     {
@@ -25,44 +26,84 @@
         [HttpGet]
         public IActionResult Get()
         {
-            var devicesViewModels = this.electricalDeviceService.All().ProjectTo<ElectricalDeviceViewModel>().ToList();
+            var devicesListModels = this.electricalDeviceService.All().ProjectTo<ElectricalDeviceListModel>().ToList();
 
-            if (devicesViewModels == null)
+            if (devicesListModels == null)
             {
                 return NotFound();
             }
 
-            return Ok(devicesViewModels);
+            return Ok(devicesListModels);
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var electricalDevice = this.electricalDeviceService.All().FirstOrDefault(ed => ed.Id == id);
+            var electricalDeviceDetailsModel = this.electricalDeviceService.All()
+                .Where(ed => ed.Id == id)
+                .ProjectTo<ElectricalDeviceDetailsModel>()
+                .FirstOrDefault();
+
+            if (electricalDeviceDetailsModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(electricalDeviceDetailsModel);
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody]ElectricalDeviceCreateModel electricalDeviceCreateModel)
+        {
+            if (electricalDeviceCreateModel == null)
+            {
+                return BadRequest();
+            }
+
+            var electricalDevice = new ElectricalDevice();
+
+            electricalDevice = mapper.Map<ElectricalDeviceCreateModel, ElectricalDevice>(electricalDeviceCreateModel);
+
+            this.electricalDeviceService.Add(electricalDevice);
+
+            return CreatedAtAction("Post", new { id = electricalDevice.Id }, electricalDevice);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody]ElectricalDeviceEditModel electricalDeviceEditModel)
+        {
+            if (electricalDeviceEditModel == null || electricalDeviceEditModel.Id != id)
+            {
+                return BadRequest();
+            }
+
+            var electricalDevice = this.electricalDeviceService.GetById(id);
 
             if (electricalDevice == null)
             {
                 return NotFound();
             }
 
-            var electricalDeviceViewModel = mapper.Map<ElectricalDevice, ElectricalDeviceViewModel>(electricalDevice);
+            Mapper.Map(electricalDeviceEditModel, electricalDevice);
 
-            return Ok(electricalDeviceViewModel);
-        }
+            this.electricalDeviceService.Update(electricalDevice);
 
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
+            return new NoContentResult();
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var electricalDevice = this.electricalDeviceService.GetById(id);
+
+            if (electricalDevice == null)
+            {
+                return NotFound();
+            }
+
+            this.electricalDeviceService.Delete(electricalDevice);
+
+            return new NoContentResult();
         }
     }
 }

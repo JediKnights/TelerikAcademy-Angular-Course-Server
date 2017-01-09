@@ -1,8 +1,9 @@
-﻿namespace Angular.Server.Models.DomainModels
-{
-    using Angular.Server.Models.SystemModels;
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+using Angular.Server.Models.SystemModels;
+
+namespace Angular.Server.Models.DomainModels
+{
     public class ElectricalDeviceModel : AuditableEntity
     {
         private ICollection<ElectricalDevice> electricalDevices;
@@ -29,6 +30,8 @@
         public double PowerPerStep { get; set; }
 
         public double PowerAtLowestUnitLevel { get; set; }
+
+        public int? Capacity { get; set; }
 
         public string ModelIdentifier { get; set; }
 

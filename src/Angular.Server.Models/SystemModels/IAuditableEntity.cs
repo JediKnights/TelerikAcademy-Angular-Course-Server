@@ -1,7 +1,7 @@
-﻿namespace Angular.Server.Models.SystemModels
-{
-    using System;
+﻿using System;
 
+namespace Angular.Server.Models.SystemModels
+{
     public interface IAuditableEntity
     {
         DateTime? CreatedOn { get; set; }

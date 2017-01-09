@@ -9,6 +9,8 @@ using Angular.Server.Data;
 using Angular.Server.Models.DomainModels;
 using Angular.Server.Models.IdentityModels;
 using Microsoft.Extensions.Logging;
+using System.Text;
+using System.Threading;
 
 namespace Angular.Server.WebAPI.Seed
 {
@@ -99,6 +101,9 @@ namespace Angular.Server.WebAPI.Seed
                     new Manufacturer() { Name = "IBM" },
                     new Manufacturer() { Name = "Whirlpool" },
                     new Manufacturer() { Name = "LG" },
+                    new Manufacturer() { Name = "Solar City" },
+                    new Manufacturer() { Name = "Tesla" },
+                    new Manufacturer() { Name = "Teledyne Energy Systems" },
                 };
 
                 context.Manufacturers.AddRange(manufacturers);
@@ -117,7 +122,11 @@ namespace Angular.Server.WebAPI.Seed
                     new ElectricalDeviceType() { TypeName = "Refridgerator" },
                     new ElectricalDeviceType() { TypeName = "Electronic Microscope" },
                     new ElectricalDeviceType() { TypeName = "Water Pump" },
-                    new ElectricalDeviceType() { TypeName = "Water Heater" }
+                    new ElectricalDeviceType() { TypeName = "Water Heater" },
+                    new ElectricalDeviceType() { TypeName = "Energy Generator" },
+                    new ElectricalDeviceType() { TypeName = "Solar panel" },
+                    new ElectricalDeviceType() { TypeName = "Radioisotope Thermoelectric Generator" },
+                    new ElectricalDeviceType() { TypeName = "Battery Pack" }
                 };
 
                 context.ElectricalDeviceTypes.AddRange(electricalDeviceTypes);
@@ -132,6 +141,9 @@ namespace Angular.Server.WebAPI.Seed
                 var samsung = context.Manufacturers.FirstOrDefault(m => m.Name == "Samsung");
                 var whirlpool = context.Manufacturers.FirstOrDefault(m => m.Name == "Whirlpool");
                 var lg = context.Manufacturers.FirstOrDefault(m => m.Name == "LG");
+                var solarCity = context.Manufacturers.FirstOrDefault(m => m.Name == "Solar City");
+                var tesla = context.Manufacturers.FirstOrDefault(m => m.Name == "Tesla");
+                var teledyne = context.Manufacturers.FirstOrDefault(m => m.Name == "Teledyne Energy Systems");
 
                 var electricalDeviceModels = new List<ElectricalDeviceModel>
                 {
@@ -204,12 +216,129 @@ namespace Angular.Server.WebAPI.Seed
                         Manufacturer = lg,
                         ElectricalDeviceType =
                             context.ElectricalDeviceTypes.FirstOrDefault(edt => edt.TypeName == "Water Heater")
+                    },
+                    new ElectricalDeviceModel()
+                    {
+                        ModelName = "Solar City MX45 Panel",
+                        MeasuringUnit = "Watts",
+                        MinValue = 0.0d,
+                        MaxValue = 80.0d,
+                        Step = 1.0d,
+                        PowerPerStep = 0.5d,
+                        PowerAtLowestUnitLevel = 0.0d,
+                        ModelIdentifier = "34FD-SLCT",
+                        Manufacturer = solarCity,
+                        ElectricalDeviceType =
+                            context.ElectricalDeviceTypes.FirstOrDefault(edt => edt.TypeName == "Solar panel")
+                    },
+                    new ElectricalDeviceModel()
+                    {
+                        ModelName = "Teledyne HJ24 MMRTG",
+                        MeasuringUnit = "Degrees (C)",
+                        MinValue = 0.0d,
+                        MaxValue = 120.0d,
+                        Step = 1.0d,
+                        PowerPerStep = 0.5d,
+                        PowerAtLowestUnitLevel = 0.0d,
+                        ModelIdentifier = "3F4F-TLDN",
+                        Manufacturer = teledyne,
+                        ElectricalDeviceType =
+                            context.ElectricalDeviceTypes.FirstOrDefault(edt => edt.TypeName == "Radioisotope Thermoelectric Generator")
+                    },
+                    new ElectricalDeviceModel()
+                    {
+                        ModelName = "Tesla 24CF Power Pack",
+                        Capacity = 50000,
+                        MeasuringUnit = "Degrees (C)",
+                        MinValue = 0.0d,
+                        MaxValue = 250.0d,
+                        Step = 1.0d,
+                        PowerPerStep = 0.5d,
+                        PowerAtLowestUnitLevel = 0.0d,
+                        ModelIdentifier = "90QW-TSLA",
+                        Manufacturer = tesla,
+                        ElectricalDeviceType =
+                            context.ElectricalDeviceTypes.FirstOrDefault(edt => edt.TypeName == "Battery Pack")
                     }
                 };
 
                 context.ElectricalDeviceModels.AddRange(electricalDeviceModels);
 
                 context.SaveChanges();
+
+                if (!context.EnergyGenerators.Any())
+                {
+                    var energyGenerators = new List<EnergyGenerator>();
+
+                    var teledyneRadioisotopeGeneratorModel = 
+                        context.ElectricalDeviceModels.FirstOrDefault(edm => edm.ModelName == "Teledyne HJ24 MMRTG");
+
+                    var radioisotopeGenerator = new EnergyGenerator()
+                    {
+                        SerialNumber = "VC23-DF42-OK49-3F4F-TLDN",
+                        ElectricalDeviceModel = teledyneRadioisotopeGeneratorModel
+                    };
+
+                    energyGenerators.Add(radioisotopeGenerator);
+
+                    var radioisotopeGeneratorSecond = new EnergyGenerator()
+                    {
+                        SerialNumber = "LQ21-CA30-SQ1P-3F4F-TLDN",
+                        ElectricalDeviceModel = teledyneRadioisotopeGeneratorModel
+
+                    };
+
+                    energyGenerators.Add(radioisotopeGeneratorSecond);
+
+                    string[] setOfStrings = new string[]
+                    {
+                        "JFC9", "PO92", "CXO9", "AZ39", "PO9W", "QE31", "SXL4", "BA6G"
+                    };
+
+                    var solarCityPanelModel =
+                        context.ElectricalDeviceModels.FirstOrDefault(edm => edm.ModelName == "Solar City MX45 Panel");
+
+                    int setLength = setOfStrings.Length;
+
+                    Random randomGenerator = new Random();
+
+                    for (int i = 0; i < 20; i++)
+                    {
+                        StringBuilder sb = new StringBuilder();
+
+                        for (int j = 0; j < 3; j++)
+                        {
+                            string randomString = setOfStrings[randomGenerator.Next(0, setLength)];
+                            sb.AppendFormat("{0}-", randomString);
+                        }
+
+                        var energyGenerator = new EnergyGenerator()
+                        {
+                            SerialNumber = sb.ToString(),
+                            ElectricalDeviceModel = solarCityPanelModel
+                        };
+
+                        energyGenerators.Add(energyGenerator);
+                    }
+
+                    context.EnergyGenerators.AddRange(energyGenerators);
+
+                    context.SaveChanges();
+                }
+
+                if (!context.BatteryPacks.Any())
+                {
+                    var battery = new BatteryPack()
+                    {
+                        SerialNumber = "D3AP-W24C-QW2X-90QW-TSLA",
+                        ElectricalDeviceModel = 
+                        context.ElectricalDeviceModels.FirstOrDefault(edm => edm.ModelName == "Tesla 24CF Power Pack")
+                    };
+
+                    context.BatteryPacks.Add(battery);
+
+                    context.SaveChanges();
+                }
             }
 
             if (!context.BaseUnits.Any())

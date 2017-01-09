@@ -1,7 +1,8 @@
-﻿namespace Angular.Server.Services.Abstractions
-{
-    using System.Linq;
+﻿using System;
+using System.Linq;
 
+namespace Angular.Server.Services.Abstractions
+{
     public interface IRepositoryService<T>
     {
         IQueryable<T> All();

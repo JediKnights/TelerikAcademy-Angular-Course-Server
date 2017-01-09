@@ -1,7 +1,7 @@
-﻿namespace Angular.Server.Models.DomainModels
-{
-    using System;
+﻿using System;
 
+namespace Angular.Server.Models.DomainModels
+{
     public class BatteryPackChargeHistory
     {
         public int Id { get; set; }

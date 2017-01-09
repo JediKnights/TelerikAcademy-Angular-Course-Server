@@ -1,16 +1,15 @@
-﻿namespace Angular.Server.WebAPI.Controllers
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+
+using Angular.Server.Services.Abstractions;
+using Angular.Server.Models.DomainModels;
+using Angular.Server.WebAPI.Models.BatteryPack;
+
+namespace Angular.Server.WebAPI.Controllers
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Microsoft.AspNetCore.Mvc;
-
-    using global::AutoMapper;
-    using global::AutoMapper.QueryableExtensions;
-
-    using Services.Abstractions;
-    using Models;
-    using Server.Models.DomainModels;
-
     [Route("api/[controller]")]
     public class BatteryPacksController : Controller
     {
@@ -27,30 +26,31 @@
         [HttpGet]
         public IActionResult Get()
         {
-            var batteryPacksViewModels = 
-                this.batteryPackService.All().ProjectTo<BatteryPackViewModel>().ToList();
+            var batteryPacksListModels = 
+                this.batteryPackService.All().ProjectTo<BatteryPackListModel>().ToList();
 
-            if (batteryPacksViewModels == null)
+            if (batteryPacksListModels == null)
             {
                 return NotFound();
             }
 
-            return Ok(batteryPacksViewModels);
+            return Ok(batteryPacksListModels);
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var batteryPack = this.batteryPackService.All().FirstOrDefault(bps => bps.Id == id);
+            var batteryPackDetailsModel = this.batteryPackService.All()
+                .Where(bp => bp.Id == id)
+                .ProjectTo<BatteryPackDetailsModel>()
+                .FirstOrDefault();
 
-            if (batteryPack == null)
+            if (batteryPackDetailsModel == null)
             {
                 return NotFound();
             }
 
-            var batteryPackViewModel = mapper.Map<BatteryPack, BatteryPackViewModel>(batteryPack);
-
-            return Ok(batteryPackViewModel);
+            return Ok(batteryPackDetailsModel);
         }
 
         [HttpPost]

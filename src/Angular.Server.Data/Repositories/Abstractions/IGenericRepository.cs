@@ -1,8 +1,8 @@
-﻿namespace Angular.Server.Data.Repositories.Abstractions
-{
-    using System;
-    using System.Linq;
+﻿using System;
+using System.Linq;
 
+namespace Angular.Server.Data.Repositories.Abstractions
+{
     public interface IGenericRepository<T>
     {
         IQueryable<T> All();

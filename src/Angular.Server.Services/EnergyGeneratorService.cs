@@ -1,12 +1,12 @@
-﻿namespace Angular.Server.Services
+﻿using System;
+using System.Linq;
+
+using Angular.Server.Data.Repositories.Abstractions;
+using Angular.Server.Models.DomainModels;
+using Angular.Server.Services.Abstractions;
+
+namespace Angular.Server.Services
 {
-    using System;
-    using System.Linq;
-
-    using Angular.Server.Data.Repositories.Abstractions;
-    using Angular.Server.Models.DomainModels;
-    using Abstractions;
-
     public class EnergyGeneratorService : IEnergyGeneratorService
     {
         private readonly IEnergyGeneratorRepository energyGeneratorRepository;
@@ -21,7 +21,7 @@
             return this.energyGeneratorRepository.All();
         }
 
-        public EnergyGenerator GetById(Guid id)
+        public EnergyGenerator GetById(int id)
         {
             return this.energyGeneratorRepository.GetById(id);
         }

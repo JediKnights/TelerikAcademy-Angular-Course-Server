@@ -1,11 +1,11 @@
-﻿namespace Angular.Server.Data.Repositories
+﻿using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+
+using Angular.Server.Data.Repositories.Abstractions;
+
+namespace Angular.Server.Data.Repositories
 {
-    using System;
-    using System.Linq;
-    using Microsoft.EntityFrameworkCore;
-
-    using Angular.Server.Data.Repositories.Abstractions;
-
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         protected readonly DbSet<T> DbSet;

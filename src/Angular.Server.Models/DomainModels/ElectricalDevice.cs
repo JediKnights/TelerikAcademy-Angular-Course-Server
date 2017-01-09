@@ -1,8 +1,9 @@
-﻿namespace Angular.Server.Models.DomainModels
-{
-    using System;
-    using SystemModels;
+﻿using System;
 
+using Angular.Server.Models.SystemModels;
+
+namespace Angular.Server.Models.DomainModels
+{
     public class ElectricalDevice : AuditableEntity
     {
         public int Id { get; set; }
